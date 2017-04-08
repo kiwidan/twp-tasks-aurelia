@@ -3,8 +3,10 @@
     <div repeat.for="board of boards" class="board">
       <h2>${board.name}</h2>
 
-      <ul repeat.for="task of board.tasks" class="task-list">
-        <li class="task">${task.description}</li>
+      <ul class="task-list">
+        <li class="task" repeat.for="task of board.tasks" >
+          ${task.description}
+        </li>
       </ul>
 
       <div class="board-footer loading" if.bind="board.loading">

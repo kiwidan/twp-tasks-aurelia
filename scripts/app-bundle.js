@@ -11,6 +11,39 @@ define('app',["require", "exports"], function (require, exports) {
 
 //# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFBQTtRQUFBO1FBQ0EsQ0FBQztRQUFELFVBQUM7SUFBRCxDQURBLEFBQ0MsSUFBQTtJQURZLGtCQUFHIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjbGFzcyBBcHAge1xufVxuIl0sInNvdXJjZVJvb3QiOiJzcmMifQ==
 
+define('board',["require", "exports", "aurelia-fetch-client", "./task", "./env"], function (require, exports, aurelia_fetch_client_1, task_1, env_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Board = (function () {
+        function Board(id, name) {
+            var _this = this;
+            this.id = id;
+            this.name = name;
+            this.loading = true;
+            var client = new aurelia_fetch_client_1.HttpClient();
+            client.fetch("https://" + env_1.default.company + ".teamwork.com/tasklists/" + this.id + "/tasks.json?includeCompletedTasks=true", {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
+                }
+            })
+                .then(function (response) { return response.json(); })
+                .then(function (response) {
+                var tasks = [];
+                response['todo-items'].map(function (task) {
+                    tasks.push(new task_1.default(task.id, task.content, task.completed));
+                });
+                _this.tasks = tasks;
+                _this.loading = false;
+            });
+        }
+        return Board;
+    }());
+    exports.default = Board;
+});
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJvYXJkLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztJQUlBO1FBTUUsZUFBWSxFQUFVLEVBQUUsSUFBWTtZQUFwQyxpQkF5QkM7WUF4QkMsSUFBSSxDQUFDLEVBQUUsR0FBRyxFQUFFLENBQUM7WUFDYixJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQztZQUNqQixJQUFJLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQztZQUdwQixJQUFNLE1BQU0sR0FBRyxJQUFJLGlDQUFVLEVBQUUsQ0FBQztZQUVoQyxNQUFNLENBQUMsS0FBSyxDQUFDLGFBQVcsYUFBRyxDQUFDLE9BQU8sZ0NBQTJCLElBQUksQ0FBQyxFQUFFLDJDQUF3QyxFQUFFO2dCQUMzRyxPQUFPLEVBQUU7b0JBQ1AsUUFBUSxFQUFFLGtCQUFrQjtvQkFDNUIsZUFBZSxFQUFFLFFBQVEsR0FBRyxNQUFNLENBQUMsSUFBSSxDQUFDLGFBQUcsQ0FBQyxHQUFHLEdBQUcsTUFBTSxDQUFDO2lCQUMxRDthQUNGLENBQUM7aUJBQ0QsSUFBSSxDQUFDLFVBQUEsUUFBUSxJQUFJLE9BQUEsUUFBUSxDQUFDLElBQUksRUFBRSxFQUFmLENBQWUsQ0FBQztpQkFDakMsSUFBSSxDQUFDLFVBQUMsUUFBUTtnQkFDYixJQUFNLEtBQUssR0FBVyxFQUFFLENBQUM7Z0JBRXpCLFFBQVEsQ0FBQyxZQUFZLENBQUMsQ0FBQyxHQUFHLENBQUMsVUFBQSxJQUFJO29CQUM3QixLQUFLLENBQUMsSUFBSSxDQUFDLElBQUksY0FBSSxDQUFDLElBQUksQ0FBQyxFQUFFLEVBQUUsSUFBSSxDQUFDLE9BQU8sRUFBRSxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUMsQ0FBQztnQkFDOUQsQ0FBQyxDQUFDLENBQUM7Z0JBRUgsS0FBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUM7Z0JBQ25CLEtBQUksQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO1lBQ3ZCLENBQUMsQ0FBQyxDQUFDO1FBQ1AsQ0FBQztRQUNILFlBQUM7SUFBRCxDQWhDQSxBQWdDQyxJQUFBIiwiZmlsZSI6ImJvYXJkLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtIdHRwQ2xpZW50fSBmcm9tICdhdXJlbGlhLWZldGNoLWNsaWVudCc7XG5pbXBvcnQgVGFzayBmcm9tICcuL3Rhc2snO1xuaW1wb3J0IGVudiBmcm9tICcuL2Vudic7XG5cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIEJvYXJkIHtcbiAgaWQ6IG51bWJlcjtcbiAgbmFtZTogc3RyaW5nO1xuICB0YXNrczogVGFza1tdO1xuICBsb2FkaW5nOiBib29sZWFuO1xuXG4gIGNvbnN0cnVjdG9yKGlkOiBudW1iZXIsIG5hbWU6IHN0cmluZykge1xuICAgIHRoaXMuaWQgPSBpZDtcbiAgICB0aGlzLm5hbWUgPSBuYW1lO1xuICAgIHRoaXMubG9hZGluZyA9IHRydWU7XG5cbiAgICAvLyBHbyBnZXQgdGFza3NcbiAgICBjb25zdCBjbGllbnQgPSBuZXcgSHR0cENsaWVudCgpO1xuXG4gICAgY2xpZW50LmZldGNoKGBodHRwczovLyR7ZW52LmNvbXBhbnl9LnRlYW13b3JrLmNvbS90YXNrbGlzdHMvJHt0aGlzLmlkfS90YXNrcy5qc29uP2luY2x1ZGVDb21wbGV0ZWRUYXNrcz10cnVlYCwge1xuICAgICAgICBoZWFkZXJzOiB7XG4gICAgICAgICAgJ0FjY2VwdCc6ICdhcHBsaWNhdGlvbi9qc29uJyxcbiAgICAgICAgICAnQXV0aG9yaXphdGlvbic6IFwiQkFTSUMgXCIgKyB3aW5kb3cuYnRvYShlbnYua2V5ICsgJzp4eHgnKVxuICAgICAgICB9XG4gICAgICB9KVxuICAgICAgLnRoZW4ocmVzcG9uc2UgPT4gcmVzcG9uc2UuanNvbigpKVxuICAgICAgLnRoZW4oKHJlc3BvbnNlKSA9PiB7XG4gICAgICAgIGNvbnN0IHRhc2tzOiBUYXNrW10gPSBbXTtcblxuICAgICAgICByZXNwb25zZVsndG9kby1pdGVtcyddLm1hcCh0YXNrID0+IHtcbiAgICAgICAgICB0YXNrcy5wdXNoKG5ldyBUYXNrKHRhc2suaWQsIHRhc2suY29udGVudCwgdGFzay5jb21wbGV0ZWQpKTtcbiAgICAgICAgfSk7XG5cbiAgICAgICAgdGhpcy50YXNrcyA9IHRhc2tzO1xuICAgICAgICB0aGlzLmxvYWRpbmcgPSBmYWxzZTtcbiAgICAgIH0pO1xuICB9XG59Il0sInNvdXJjZVJvb3QiOiJzcmMifQ==
+
 define('env',["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -34,6 +67,37 @@ define('environment',["require", "exports"], function (require, exports) {
 });
 
 //# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImVudmlyb25tZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztJQUFBLGtCQUFlO1FBQ2IsS0FBSyxFQUFFLElBQUk7UUFDWCxPQUFPLEVBQUUsSUFBSTtLQUNkLENBQUMiLCJmaWxlIjoiZW52aXJvbm1lbnQuanMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCB7XG4gIGRlYnVnOiB0cnVlLFxuICB0ZXN0aW5nOiB0cnVlXG59O1xuIl0sInNvdXJjZVJvb3QiOiJzcmMifQ==
+
+define('kanban',["require", "exports", "aurelia-fetch-client", "./env", "./board"], function (require, exports, aurelia_fetch_client_1, env_1, board_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Kanban = (function () {
+        function Kanban() {
+            var _this = this;
+            var client = new aurelia_fetch_client_1.HttpClient();
+            var url = "https://" + env_1.default.company + ".teamwork.com/projects/" + env_1.default.projectId + "/tasklists.json?status=all";
+            client.fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
+                }
+            })
+                .then(function (response) { return response.json(); })
+                .then(function (response) {
+                var boards = [];
+                response.tasklists.map(function (tasklist) {
+                    boards.push(new board_1.default(tasklist.id, tasklist.name));
+                });
+                _this.boards = boards;
+                console.log(_this.boards);
+            });
+        }
+        return Kanban;
+    }());
+    exports.Kanban = Kanban;
+});
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImthbmJhbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFTQTtRQUdFO1lBQUEsaUJBd0JDO1lBdkJDLElBQU0sTUFBTSxHQUFHLElBQUksaUNBQVUsRUFBRSxDQUFDO1lBQ2hDLElBQU0sR0FBRyxHQUFHLGFBQVcsYUFBRyxDQUFDLE9BQU8sK0JBQTBCLGFBQUcsQ0FBQyxTQUFTLCtCQUE0QixDQUFDO1lBRXRHLE1BQU0sQ0FBQyxLQUFLLENBQUMsR0FBRyxFQUFFO2dCQUNkLE9BQU8sRUFBRTtvQkFDUCxRQUFRLEVBQUUsa0JBQWtCO29CQUM1QixlQUFlLEVBQUUsUUFBUSxHQUFHLE1BQU0sQ0FBQyxJQUFJLENBQUMsYUFBRyxDQUFDLEdBQUcsR0FBRyxNQUFNLENBQUM7aUJBQzFEO2FBQ0YsQ0FBQztpQkFDRCxJQUFJLENBQUMsVUFBQSxRQUFRLElBQUksT0FBQSxRQUFRLENBQUMsSUFBSSxFQUFFLEVBQWYsQ0FBZSxDQUFDO2lCQUNqQyxJQUFJLENBQUMsVUFBQyxRQUE0QjtnQkFDakMsSUFBTSxNQUFNLEdBQVksRUFBRSxDQUFDO2dCQUUzQixRQUFRLENBQUMsU0FBUyxDQUFDLEdBQUcsQ0FBQyxVQUFBLFFBQVE7b0JBQzdCLE1BQU0sQ0FBQyxJQUFJLENBQ1QsSUFBSSxlQUFLLENBQUMsUUFBUSxDQUFDLEVBQUUsRUFBRSxRQUFRLENBQUMsSUFBSSxDQUFDLENBQ3RDLENBQUM7Z0JBQ0osQ0FBQyxDQUFDLENBQUM7Z0JBRUgsS0FBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7Z0JBRXJCLE9BQU8sQ0FBQyxHQUFHLENBQUMsS0FBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDO1lBQzNCLENBQUMsQ0FBQyxDQUFDO1FBQ1AsQ0FBQztRQUNILGFBQUM7SUFBRCxDQTVCQSxBQTRCQyxJQUFBO0lBNUJZLHdCQUFNIiwiZmlsZSI6ImthbmJhbi5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7SHR0cENsaWVudH0gZnJvbSAnYXVyZWxpYS1mZXRjaC1jbGllbnQnO1xuaW1wb3J0IGVudiBmcm9tICcuL2Vudic7XG5pbXBvcnQgQm9hcmQgZnJvbSAnLi9ib2FyZCc7XG5cblxuaW50ZXJmYWNlIElUYXNrbGlzdHNSZXNwb25zZSBleHRlbmRzIFJlc3BvbnNlIHtcbiAgdGFza2xpc3RzOiBCb2FyZFtdO1xufVxuXG5leHBvcnQgY2xhc3MgS2FuYmFuIHtcbiAgYm9hcmRzOiBCb2FyZFtdO1xuXG4gIGNvbnN0cnVjdG9yKCkge1xuICAgIGNvbnN0IGNsaWVudCA9IG5ldyBIdHRwQ2xpZW50KCk7XG4gICAgY29uc3QgdXJsID0gYGh0dHBzOi8vJHtlbnYuY29tcGFueX0udGVhbXdvcmsuY29tL3Byb2plY3RzLyR7ZW52LnByb2plY3RJZH0vdGFza2xpc3RzLmpzb24/c3RhdHVzPWFsbGA7XG5cbiAgICBjbGllbnQuZmV0Y2godXJsLCB7XG4gICAgICAgIGhlYWRlcnM6IHtcbiAgICAgICAgICAnQWNjZXB0JzogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICAgICAgICAgICdBdXRob3JpemF0aW9uJzogXCJCQVNJQyBcIiArIHdpbmRvdy5idG9hKGVudi5rZXkgKyAnOnh4eCcpXG4gICAgICAgIH1cbiAgICAgIH0pXG4gICAgICAudGhlbihyZXNwb25zZSA9PiByZXNwb25zZS5qc29uKCkpXG4gICAgICAudGhlbigocmVzcG9uc2U6IElUYXNrbGlzdHNSZXNwb25zZSkgPT4ge1xuICAgICAgICBjb25zdCBib2FyZHM6IEJvYXJkW10gPSBbXTtcblxuICAgICAgICByZXNwb25zZS50YXNrbGlzdHMubWFwKHRhc2tsaXN0ID0+IHtcbiAgICAgICAgICBib2FyZHMucHVzaChcbiAgICAgICAgICAgIG5ldyBCb2FyZCh0YXNrbGlzdC5pZCwgdGFza2xpc3QubmFtZSlcbiAgICAgICAgICApO1xuICAgICAgICB9KTtcblxuICAgICAgICB0aGlzLmJvYXJkcyA9IGJvYXJkcztcblxuICAgICAgICBjb25zb2xlLmxvZyh0aGlzLmJvYXJkcyk7XG4gICAgICB9KTtcbiAgfVxufSJdLCJzb3VyY2VSb290Ijoic3JjIn0=
 
 define('main',["require", "exports", "./environment"], function (require, exports, environment_1) {
     "use strict";
@@ -83,87 +147,7 @@ define('resources/index',["require", "exports"], function (require, exports) {
 
 //# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlc291cmNlcy9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFFQSxtQkFBMEIsTUFBOEI7SUFFeEQsQ0FBQztJQUZELDhCQUVDIiwiZmlsZSI6InJlc291cmNlcy9pbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7RnJhbWV3b3JrQ29uZmlndXJhdGlvbn0gZnJvbSAnYXVyZWxpYS1mcmFtZXdvcmsnO1xuXG5leHBvcnQgZnVuY3Rpb24gY29uZmlndXJlKGNvbmZpZzogRnJhbWV3b3JrQ29uZmlndXJhdGlvbikge1xuICAvL2NvbmZpZy5nbG9iYWxSZXNvdXJjZXMoW10pO1xufVxuIl0sInNvdXJjZVJvb3QiOiJzcmMifQ==
 
-define('tasklist',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Tasklist = (function () {
-        function Tasklist(id, name) {
-            this.id = id;
-            this.name = name;
-        }
-        return Tasklist;
-    }());
-    exports.default = Tasklist;
-});
-
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRhc2tsaXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztJQUFBO1FBSUksa0JBQVksRUFBVSxFQUFFLElBQVk7WUFDaEMsSUFBSSxDQUFDLEVBQUUsR0FBRyxFQUFFLENBQUM7WUFDYixJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQztRQUNyQixDQUFDO1FBQ0wsZUFBQztJQUFELENBUkEsQUFRQyxJQUFBIiwiZmlsZSI6InRhc2tsaXN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGRlZmF1bHQgY2xhc3MgVGFza2xpc3Qge1xuICAgIGlkOiBudW1iZXI7XG4gICAgbmFtZTogc3RyaW5nO1xuXG4gICAgY29uc3RydWN0b3IoaWQ6IG51bWJlciwgbmFtZTogc3RyaW5nKSB7XG4gICAgICAgIHRoaXMuaWQgPSBpZDtcbiAgICAgICAgdGhpcy5uYW1lID0gbmFtZTtcbiAgICB9XG59Il0sInNvdXJjZVJvb3QiOiJzcmMifQ==
-
-define('kanban',["require", "exports", "aurelia-fetch-client", "./env", "./board"], function (require, exports, aurelia_fetch_client_1, env_1, board_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Kanban = (function () {
-        function Kanban() {
-            var _this = this;
-            var client = new aurelia_fetch_client_1.HttpClient();
-            var url = "https://" + env_1.default.company + ".teamwork.com/projects/" + env_1.default.projectId + "/tasklists.json?status=all";
-            client.fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
-                }
-            })
-                .then(function (response) { return response.json(); })
-                .then(function (response) {
-                var boards = [];
-                response.tasklists.map(function (tasklist) {
-                    boards.push(new board_1.default(tasklist.id, tasklist.name));
-                });
-                _this.boards = boards;
-                console.log(_this.boards);
-            });
-        }
-        return Kanban;
-    }());
-    exports.Kanban = Kanban;
-});
-
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImthbmJhbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFTQTtRQUdFO1lBQUEsaUJBd0JDO1lBdkJDLElBQU0sTUFBTSxHQUFHLElBQUksaUNBQVUsRUFBRSxDQUFDO1lBQ2hDLElBQU0sR0FBRyxHQUFHLGFBQVcsYUFBRyxDQUFDLE9BQU8sK0JBQTBCLGFBQUcsQ0FBQyxTQUFTLCtCQUE0QixDQUFDO1lBRXRHLE1BQU0sQ0FBQyxLQUFLLENBQUMsR0FBRyxFQUFFO2dCQUNkLE9BQU8sRUFBRTtvQkFDUCxRQUFRLEVBQUUsa0JBQWtCO29CQUM1QixlQUFlLEVBQUUsUUFBUSxHQUFHLE1BQU0sQ0FBQyxJQUFJLENBQUMsYUFBRyxDQUFDLEdBQUcsR0FBRyxNQUFNLENBQUM7aUJBQzFEO2FBQ0YsQ0FBQztpQkFDRCxJQUFJLENBQUMsVUFBQSxRQUFRLElBQUksT0FBQSxRQUFRLENBQUMsSUFBSSxFQUFFLEVBQWYsQ0FBZSxDQUFDO2lCQUNqQyxJQUFJLENBQUMsVUFBQyxRQUE0QjtnQkFDakMsSUFBTSxNQUFNLEdBQVksRUFBRSxDQUFDO2dCQUUzQixRQUFRLENBQUMsU0FBUyxDQUFDLEdBQUcsQ0FBQyxVQUFBLFFBQVE7b0JBQzdCLE1BQU0sQ0FBQyxJQUFJLENBQ1QsSUFBSSxlQUFLLENBQUMsUUFBUSxDQUFDLEVBQUUsRUFBRSxRQUFRLENBQUMsSUFBSSxDQUFDLENBQ3RDLENBQUM7Z0JBQ0osQ0FBQyxDQUFDLENBQUM7Z0JBRUgsS0FBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7Z0JBRXJCLE9BQU8sQ0FBQyxHQUFHLENBQUMsS0FBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDO1lBQzNCLENBQUMsQ0FBQyxDQUFDO1FBQ1AsQ0FBQztRQUNILGFBQUM7SUFBRCxDQTVCQSxBQTRCQyxJQUFBO0lBNUJZLHdCQUFNIiwiZmlsZSI6ImthbmJhbi5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7SHR0cENsaWVudH0gZnJvbSAnYXVyZWxpYS1mZXRjaC1jbGllbnQnO1xuaW1wb3J0IGVudiBmcm9tICcuL2Vudic7XG5pbXBvcnQgQm9hcmQgZnJvbSAnLi9ib2FyZCc7XG5cblxuaW50ZXJmYWNlIElUYXNrbGlzdHNSZXNwb25zZSBleHRlbmRzIFJlc3BvbnNlIHtcbiAgdGFza2xpc3RzOiBCb2FyZFtdO1xufVxuXG5leHBvcnQgY2xhc3MgS2FuYmFuIHtcbiAgYm9hcmRzOiBCb2FyZFtdO1xuXG4gIGNvbnN0cnVjdG9yKCkge1xuICAgIGNvbnN0IGNsaWVudCA9IG5ldyBIdHRwQ2xpZW50KCk7XG4gICAgY29uc3QgdXJsID0gYGh0dHBzOi8vJHtlbnYuY29tcGFueX0udGVhbXdvcmsuY29tL3Byb2plY3RzLyR7ZW52LnByb2plY3RJZH0vdGFza2xpc3RzLmpzb24/c3RhdHVzPWFsbGA7XG5cbiAgICBjbGllbnQuZmV0Y2godXJsLCB7XG4gICAgICAgIGhlYWRlcnM6IHtcbiAgICAgICAgICAnQWNjZXB0JzogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICAgICAgICAgICdBdXRob3JpemF0aW9uJzogXCJCQVNJQyBcIiArIHdpbmRvdy5idG9hKGVudi5rZXkgKyAnOnh4eCcpXG4gICAgICAgIH1cbiAgICAgIH0pXG4gICAgICAudGhlbihyZXNwb25zZSA9PiByZXNwb25zZS5qc29uKCkpXG4gICAgICAudGhlbigocmVzcG9uc2U6IElUYXNrbGlzdHNSZXNwb25zZSkgPT4ge1xuICAgICAgICBjb25zdCBib2FyZHM6IEJvYXJkW10gPSBbXTtcblxuICAgICAgICByZXNwb25zZS50YXNrbGlzdHMubWFwKHRhc2tsaXN0ID0+IHtcbiAgICAgICAgICBib2FyZHMucHVzaChcbiAgICAgICAgICAgIG5ldyBCb2FyZCh0YXNrbGlzdC5pZCwgdGFza2xpc3QubmFtZSlcbiAgICAgICAgICApO1xuICAgICAgICB9KTtcblxuICAgICAgICB0aGlzLmJvYXJkcyA9IGJvYXJkcztcblxuICAgICAgICBjb25zb2xlLmxvZyh0aGlzLmJvYXJkcyk7XG4gICAgICB9KTtcbiAgfVxufSJdLCJzb3VyY2VSb290Ijoic3JjIn0=
-
-define('board',["require", "exports", "aurelia-fetch-client", "./task", "./env"], function (require, exports, aurelia_fetch_client_1, task_1, env_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Board = (function () {
-        function Board(id, name) {
-            var _this = this;
-            this.id = id;
-            this.name = name;
-            this.loading = true;
-            var client = new aurelia_fetch_client_1.HttpClient();
-            client.fetch("https://" + env_1.default.company + ".teamwork.com/tasklists/" + this.id + "/tasks.json?includeCompletedTasks=true", {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
-                }
-            })
-                .then(function (response) { return response.json(); })
-                .then(function (response) {
-                var tasks = [];
-                response['todo-items'].map(function (task) {
-                    tasks.push(new task_1.default(task.id, task.content, task.completed));
-                });
-                _this.tasks = tasks;
-                _this.loading = false;
-            });
-        }
-        return Board;
-    }());
-    exports.default = Board;
-});
-
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJvYXJkLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztJQUlBO1FBTUUsZUFBWSxFQUFVLEVBQUUsSUFBWTtZQUFwQyxpQkF5QkM7WUF4QkMsSUFBSSxDQUFDLEVBQUUsR0FBRyxFQUFFLENBQUM7WUFDYixJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQztZQUNqQixJQUFJLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQztZQUdwQixJQUFNLE1BQU0sR0FBRyxJQUFJLGlDQUFVLEVBQUUsQ0FBQztZQUVoQyxNQUFNLENBQUMsS0FBSyxDQUFDLGFBQVcsYUFBRyxDQUFDLE9BQU8sZ0NBQTJCLElBQUksQ0FBQyxFQUFFLDJDQUF3QyxFQUFFO2dCQUMzRyxPQUFPLEVBQUU7b0JBQ1AsUUFBUSxFQUFFLGtCQUFrQjtvQkFDNUIsZUFBZSxFQUFFLFFBQVEsR0FBRyxNQUFNLENBQUMsSUFBSSxDQUFDLGFBQUcsQ0FBQyxHQUFHLEdBQUcsTUFBTSxDQUFDO2lCQUMxRDthQUNGLENBQUM7aUJBQ0QsSUFBSSxDQUFDLFVBQUEsUUFBUSxJQUFJLE9BQUEsUUFBUSxDQUFDLElBQUksRUFBRSxFQUFmLENBQWUsQ0FBQztpQkFDakMsSUFBSSxDQUFDLFVBQUMsUUFBUTtnQkFDYixJQUFNLEtBQUssR0FBVyxFQUFFLENBQUM7Z0JBRXpCLFFBQVEsQ0FBQyxZQUFZLENBQUMsQ0FBQyxHQUFHLENBQUMsVUFBQSxJQUFJO29CQUM3QixLQUFLLENBQUMsSUFBSSxDQUFDLElBQUksY0FBSSxDQUFDLElBQUksQ0FBQyxFQUFFLEVBQUUsSUFBSSxDQUFDLE9BQU8sRUFBRSxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUMsQ0FBQztnQkFDOUQsQ0FBQyxDQUFDLENBQUM7Z0JBRUgsS0FBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUM7Z0JBQ25CLEtBQUksQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO1lBQ3ZCLENBQUMsQ0FBQyxDQUFDO1FBQ1AsQ0FBQztRQUNILFlBQUM7SUFBRCxDQWhDQSxBQWdDQyxJQUFBIiwiZmlsZSI6ImJvYXJkLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtIdHRwQ2xpZW50fSBmcm9tICdhdXJlbGlhLWZldGNoLWNsaWVudCc7XG5pbXBvcnQgVGFzayBmcm9tICcuL3Rhc2snO1xuaW1wb3J0IGVudiBmcm9tICcuL2Vudic7XG5cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIEJvYXJkIHtcbiAgaWQ6IG51bWJlcjtcbiAgbmFtZTogc3RyaW5nO1xuICB0YXNrczogVGFza1tdO1xuICBsb2FkaW5nOiBib29sZWFuO1xuXG4gIGNvbnN0cnVjdG9yKGlkOiBudW1iZXIsIG5hbWU6IHN0cmluZykge1xuICAgIHRoaXMuaWQgPSBpZDtcbiAgICB0aGlzLm5hbWUgPSBuYW1lO1xuICAgIHRoaXMubG9hZGluZyA9IHRydWU7XG5cbiAgICAvLyBHbyBnZXQgdGFza3NcbiAgICBjb25zdCBjbGllbnQgPSBuZXcgSHR0cENsaWVudCgpO1xuXG4gICAgY2xpZW50LmZldGNoKGBodHRwczovLyR7ZW52LmNvbXBhbnl9LnRlYW13b3JrLmNvbS90YXNrbGlzdHMvJHt0aGlzLmlkfS90YXNrcy5qc29uP2luY2x1ZGVDb21wbGV0ZWRUYXNrcz10cnVlYCwge1xuICAgICAgICBoZWFkZXJzOiB7XG4gICAgICAgICAgJ0FjY2VwdCc6ICdhcHBsaWNhdGlvbi9qc29uJyxcbiAgICAgICAgICAnQXV0aG9yaXphdGlvbic6IFwiQkFTSUMgXCIgKyB3aW5kb3cuYnRvYShlbnYua2V5ICsgJzp4eHgnKVxuICAgICAgICB9XG4gICAgICB9KVxuICAgICAgLnRoZW4ocmVzcG9uc2UgPT4gcmVzcG9uc2UuanNvbigpKVxuICAgICAgLnRoZW4oKHJlc3BvbnNlKSA9PiB7XG4gICAgICAgIGNvbnN0IHRhc2tzOiBUYXNrW10gPSBbXTtcblxuICAgICAgICByZXNwb25zZVsndG9kby1pdGVtcyddLm1hcCh0YXNrID0+IHtcbiAgICAgICAgICB0YXNrcy5wdXNoKG5ldyBUYXNrKHRhc2suaWQsIHRhc2suY29udGVudCwgdGFzay5jb21wbGV0ZWQpKTtcbiAgICAgICAgfSk7XG5cbiAgICAgICAgdGhpcy50YXNrcyA9IHRhc2tzO1xuICAgICAgICB0aGlzLmxvYWRpbmcgPSBmYWxzZTtcbiAgICAgIH0pO1xuICB9XG59Il0sInNvdXJjZVJvb3QiOiJzcmMifQ==
-
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"./style.css\"></require><require from=\"./kanban\"></require><kanban></kanban></template>"; });
 define('text!style.css', ['module'], function(module) { module.exports = "body {\n    background: #B9BABC;\n    font-family: 'Roboto', sans-serif;\n    overflow-x: scroll;\n    margin: 0;\n}\n\n.kanban {\n    white-space: nowrap;\n    padding-top: 30px;\n}\n\n.board {\n    background: #F1F1F1;\n    width: 300px;\n    margin-left: 15px;\n    display: inline-block;\n    box-shadow: 2px 2px 5px 1px #aaa;\n    border-radius: 4px;\n    white-space: normal;\n    vertical-align:top;\n}\n\n.board h2 {\n    padding: 20px 15px;\n    text-align: center;\n    margin: 0;\n    border-bottom: 1px solid #aaa;\n    border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    background: #3b5574;\n    color: white;\n    box-shadow: 0 0 5px 1px rgba(200, 200, 200, .5);\n}\n\n.board:last-child {\n    margin-right: 15px;\n}\n\n.task-list {\n    padding: 10px;\n    list-style-type: none;\n    margin: 0;\n}\n\n.task {\n    background: white;\n    padding: 15px;\n    margin-top: 10px;\n    border-left: 4px solid #3b5574;\n    border-radius: 2px;\n    box-shadow: 0 0 5px 1px rgba(200, 200, 200, .3);\n    cursor: pointer;\n}\n\n.task-title {\n    margin-left: 8px;\n}\n\n.board-footer {\n    background: white;\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    text-align: center;\n    padding: 15px;\n    font-weight: bold;\n    box-shadow: 0 0 5px 1px rgba(200, 200, 200, .5);\n}\n\n.page-message {\n    background: white;\n    width: 62%;\n    margin: 30px auto;\n    border-radius: 4px;\n    box-shadow: 2px 2px 5px 1px #aaa;\n    text-align: center;\n    font-size: 1.2em;\n    font-weight: 700;\n    padding: 30px;\n}\n\n.hidden {\n    display: none;\n}\n\n.error {\n    color: red;\n}"; });
-define('text!kanban.html', ['module'], function(module) { module.exports = "<template><div class=\"kanban\"><div repeat.for=\"board of boards\" class=\"board\"><h2>${board.name}</h2><ul repeat.for=\"task of board.tasks\" class=\"task-list\"><li class=\"task\">${task.description}</li></ul><div class=\"board-footer loading\" if.bind=\"board.loading\">Loading...</div><div class=\"board-footer\" if.bind=\"!board.loading\">${board.tasks.length} ${board.tasks.length === 1 ? 'task' : 'tasks'}</div></div></div></template>"; });
-define('text!board.html', ['module'], function(module) { module.exports = "<template><div class=\"board\"><h2>${tasklist.name}</h2><ul class=\"task-list\"></ul></div></template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"./style.css\"></require><require from=\"./kanban\"></require><kanban></kanban></template>"; });
+define('text!kanban.html', ['module'], function(module) { module.exports = "<template><div class=\"kanban\"><div repeat.for=\"board of boards\" class=\"board\"><h2>${board.name}</h2><ul class=\"task-list\"><li class=\"task\" repeat.for=\"task of board.tasks\">${task.description}</li></ul><div class=\"board-footer loading\" if.bind=\"board.loading\">Loading...</div><div class=\"board-footer\" if.bind=\"!board.loading\">${board.tasks.length} ${board.tasks.length === 1 ? 'task' : 'tasks'}</div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
