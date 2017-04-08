@@ -1,15 +1,15 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import env from './env';
-import Tasklist from './tasklist';
+import Board from './board';
 
 
 interface ITasklistsResponse extends Response {
-  tasklists: Tasklist[];
+  tasklists: Board[];
 }
 
 export class Kanban {
-  boards: Tasklist[];
+  boards: Board[];
 
   constructor() {
     const client = new HttpClient();
@@ -27,7 +27,7 @@ export class Kanban {
 
         response.tasklists.map(tasklist => {
           boards.push(
-            new Tasklist(tasklist.id, tasklist.name)
+            new Board(tasklist.id, tasklist.name)
           );
         });
 

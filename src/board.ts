@@ -1,4 +1,4 @@
-export default class Tasklist {
+export default class Board {
     id: number;
     name: string;
 

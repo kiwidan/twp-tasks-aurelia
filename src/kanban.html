@@ -1,7 +1,7 @@
 <template>
   <div class="kanban">
-    <div repeat.for="tasklist of boards" class="board">
-      <h2>${tasklist.name}</h2>
+    <div repeat.for="board of boards" class="board">
+      <h2>${board.name}</h2>
 
       <ul class="task-list">
         
