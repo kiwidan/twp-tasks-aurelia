@@ -10,11 +10,12 @@
         </li>
       </ul>
 
-      <div class="board-footer loading" if.bind="board.loading">
-        Loading...
-      </div>
-      <div class="board-footer" if.bind="!board.loading">
-        ${board.tasks.length} ${board.tasks.length === 1 ? 'task' : 'tasks'}
+      <div class="board-footer ${board.loading ? 'loading' : ''}">
+        <span if.bind="board.loading">Loading...</span>
+        
+        <span if.bind="!board.loading">
+          ${board.tasks.length} ${board.tasks.length === 1 ? 'task' : 'tasks'}
+        </span>
       </div>
     </div>
   </div>
