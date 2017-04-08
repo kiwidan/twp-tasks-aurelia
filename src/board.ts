@@ -6,10 +6,12 @@ export default class Board {
   id: number;
   name: string;
   tasks: Task[];
+  loading: boolean;
 
   constructor(id: number, name: string) {
     this.id = id;
     this.name = name;
+    this.loading = true;
 
     // Go get tasks
     const client = new HttpClient();
@@ -29,6 +31,7 @@ export default class Board {
         });
 
         this.tasks = tasks;
+        this.loading = false;
       });
   }
 }

@@ -7,8 +7,11 @@
         <li class="task">${task.description}</li>
       </ul>
 
-      <div class="board-footer">
-        ${board.tasks.length}
+      <div class="board-footer loading" if.bind="board.loading">
+        Loading...
+      </div>
+      <div class="board-footer" if.bind="!board.loading">
+        ${board.tasks.length} ${board.tasks.length === 1 ? 'task' : 'tasks'}
       </div>
     </div>
   </div>
