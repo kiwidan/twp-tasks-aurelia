@@ -1,22 +1,15 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import env from './env';
+import Tasklist from './tasklist';
 
-interface ITasklist {
-  id: number;
-  name: string;
-}
 
 interface ITasklistsResponse extends Response {
-  tasklists: ITasklist[];
+  tasklists: Tasklist[];
 }
 
-interface IKanban {
-  boards: ITasklist[];
-}
-
-export class App implements IKanban {
-  boards;
+export class App {
+  boards: Tasklist[];
 
   constructor() { }
 
@@ -35,10 +28,9 @@ export class App implements IKanban {
         const boards = [];
 
         response.tasklists.map(tasklist => {
-          boards.push({
-            id: tasklist.id,
-            name: tasklist.name
-          })
+          boards.push(
+            new Tasklist(tasklist.id, tasklist.name)
+          );
         });
 
         this.boards = boards;
