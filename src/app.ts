@@ -2,28 +2,48 @@ import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import env from './env';
 
-export class App {
+interface ITasklist {
+  id: number;
+  name: string;
+}
+
+interface ITasklistsResponse extends Response {
+  tasklists: ITasklist[];
+}
+
+interface IKanban {
+  boards: ITasklist[];
+}
+
+export class App implements IKanban {
+  boards;
+
   constructor() { }
 
   activate() {
-    let client = new HttpClient();
+    const client = new HttpClient();
+    const url = `https://${env.company}.teamwork.com/projects/${env.projectId}/tasklists.json?status=all`;
 
-    client.fetch('package.json')
+    client.fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': "BASIC " + window.btoa(env.key + ':xxx')
+        }
+      })
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      });
-    }
-  //   let client = new HttpClient();
+      .then((response: ITasklistsResponse) => {
+        const boards = [];
 
-  //   client.fetch(`https://${env.company}.teamwork.com/tasks/projects/${env.projectId}/tasklists.json?status=all`, {
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Authorization': "BASIC " + window.btoa(env.key + ':xxx')
-  //       }
-  //     })
-  //     .then(response => {
-  //       console.log(response);
-  //     });
-  // }
+        response.tasklists.map(tasklist => {
+          boards.push({
+            id: tasklist.id,
+            name: tasklist.name
+          })
+        });
+
+        this.boards = boards;
+
+        console.log(this.boards);
+      });
+  }
 }

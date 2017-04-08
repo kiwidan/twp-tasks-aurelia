@@ -1,15 +1,30 @@
-define('app',["require", "exports", "aurelia-fetch-client"], function (require, exports, aurelia_fetch_client_1) {
+define('app',["require", "exports", "aurelia-fetch-client", "./env"], function (require, exports, aurelia_fetch_client_1, env_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var App = (function () {
         function App() {
         }
         App.prototype.activate = function () {
+            var _this = this;
             var client = new aurelia_fetch_client_1.HttpClient();
-            client.fetch('package.json')
+            var url = "https://" + env_1.default.company + ".teamwork.com/projects/" + env_1.default.projectId + "/tasklists.json?status=all";
+            client.fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
+                }
+            })
                 .then(function (response) { return response.json(); })
-                .then(function (data) {
-                console.log(data);
+                .then(function (response) {
+                var boards = [];
+                response.tasklists.map(function (tasklist) {
+                    boards.push({
+                        id: tasklist.id,
+                        name: tasklist.name
+                    });
+                });
+                _this.boards = boards;
+                console.log(_this.boards);
             });
         };
         return App;
@@ -17,7 +32,7 @@ define('app',["require", "exports", "aurelia-fetch-client"], function (require, 
     exports.App = App;
 });
 
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFJQTtRQUNFO1FBQWdCLENBQUM7UUFFakIsc0JBQVEsR0FBUjtZQUNFLElBQUksTUFBTSxHQUFHLElBQUksaUNBQVUsRUFBRSxDQUFDO1lBRTlCLE1BQU0sQ0FBQyxLQUFLLENBQUMsY0FBYyxDQUFDO2lCQUN6QixJQUFJLENBQUMsVUFBQSxRQUFRLElBQUksT0FBQSxRQUFRLENBQUMsSUFBSSxFQUFFLEVBQWYsQ0FBZSxDQUFDO2lCQUNqQyxJQUFJLENBQUMsVUFBQSxJQUFJO2dCQUNSLE9BQU8sQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLENBQUM7WUFDcEIsQ0FBQyxDQUFDLENBQUM7UUFDTCxDQUFDO1FBYUwsVUFBQztJQUFELENBeEJBLEFBd0JDLElBQUE7SUF4Qlksa0JBQUciLCJmaWxlIjoiYXBwLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtpbmplY3R9IGZyb20gJ2F1cmVsaWEtZnJhbWV3b3JrJztcbmltcG9ydCB7SHR0cENsaWVudH0gZnJvbSAnYXVyZWxpYS1mZXRjaC1jbGllbnQnO1xuaW1wb3J0IGVudiBmcm9tICcuL2Vudic7XG5cbmV4cG9ydCBjbGFzcyBBcHAge1xuICBjb25zdHJ1Y3RvcigpIHsgfVxuXG4gIGFjdGl2YXRlKCkge1xuICAgIGxldCBjbGllbnQgPSBuZXcgSHR0cENsaWVudCgpO1xuXG4gICAgY2xpZW50LmZldGNoKCdwYWNrYWdlLmpzb24nKVxuICAgICAgLnRoZW4ocmVzcG9uc2UgPT4gcmVzcG9uc2UuanNvbigpKVxuICAgICAgLnRoZW4oZGF0YSA9PiB7XG4gICAgICAgIGNvbnNvbGUubG9nKGRhdGEpO1xuICAgICAgfSk7XG4gICAgfVxuICAvLyAgIGxldCBjbGllbnQgPSBuZXcgSHR0cENsaWVudCgpO1xuXG4gIC8vICAgY2xpZW50LmZldGNoKGBodHRwczovLyR7ZW52LmNvbXBhbnl9LnRlYW13b3JrLmNvbS90YXNrcy9wcm9qZWN0cy8ke2Vudi5wcm9qZWN0SWR9L3Rhc2tsaXN0cy5qc29uP3N0YXR1cz1hbGxgLCB7XG4gIC8vICAgICAgIGhlYWRlcnM6IHtcbiAgLy8gICAgICAgICAnQWNjZXB0JzogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICAvLyAgICAgICAgICdBdXRob3JpemF0aW9uJzogXCJCQVNJQyBcIiArIHdpbmRvdy5idG9hKGVudi5rZXkgKyAnOnh4eCcpXG4gIC8vICAgICAgIH1cbiAgLy8gICAgIH0pXG4gIC8vICAgICAudGhlbihyZXNwb25zZSA9PiB7XG4gIC8vICAgICAgIGNvbnNvbGUubG9nKHJlc3BvbnNlKTtcbiAgLy8gICAgIH0pO1xuICAvLyB9XG59XG4iXSwic291cmNlUm9vdCI6InNyYyJ9
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFpQkE7UUFHRTtRQUFnQixDQUFDO1FBRWpCLHNCQUFRLEdBQVI7WUFBQSxpQkF5QkM7WUF4QkMsSUFBTSxNQUFNLEdBQUcsSUFBSSxpQ0FBVSxFQUFFLENBQUM7WUFDaEMsSUFBTSxHQUFHLEdBQUcsYUFBVyxhQUFHLENBQUMsT0FBTywrQkFBMEIsYUFBRyxDQUFDLFNBQVMsK0JBQTRCLENBQUM7WUFFdEcsTUFBTSxDQUFDLEtBQUssQ0FBQyxHQUFHLEVBQUU7Z0JBQ2QsT0FBTyxFQUFFO29CQUNQLFFBQVEsRUFBRSxrQkFBa0I7b0JBQzVCLGVBQWUsRUFBRSxRQUFRLEdBQUcsTUFBTSxDQUFDLElBQUksQ0FBQyxhQUFHLENBQUMsR0FBRyxHQUFHLE1BQU0sQ0FBQztpQkFDMUQ7YUFDRixDQUFDO2lCQUNELElBQUksQ0FBQyxVQUFBLFFBQVEsSUFBSSxPQUFBLFFBQVEsQ0FBQyxJQUFJLEVBQUUsRUFBZixDQUFlLENBQUM7aUJBQ2pDLElBQUksQ0FBQyxVQUFDLFFBQTRCO2dCQUNqQyxJQUFNLE1BQU0sR0FBRyxFQUFFLENBQUM7Z0JBRWxCLFFBQVEsQ0FBQyxTQUFTLENBQUMsR0FBRyxDQUFDLFVBQUEsUUFBUTtvQkFDN0IsTUFBTSxDQUFDLElBQUksQ0FBQzt3QkFDVixFQUFFLEVBQUUsUUFBUSxDQUFDLEVBQUU7d0JBQ2YsSUFBSSxFQUFFLFFBQVEsQ0FBQyxJQUFJO3FCQUNwQixDQUFDLENBQUE7Z0JBQ0osQ0FBQyxDQUFDLENBQUM7Z0JBRUgsS0FBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7Z0JBRXJCLE9BQU8sQ0FBQyxHQUFHLENBQUMsS0FBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDO1lBQzNCLENBQUMsQ0FBQyxDQUFDO1FBQ1AsQ0FBQztRQUNILFVBQUM7SUFBRCxDQS9CQSxBQStCQyxJQUFBO0lBL0JZLGtCQUFHIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7aW5qZWN0fSBmcm9tICdhdXJlbGlhLWZyYW1ld29yayc7XG5pbXBvcnQge0h0dHBDbGllbnR9IGZyb20gJ2F1cmVsaWEtZmV0Y2gtY2xpZW50JztcbmltcG9ydCBlbnYgZnJvbSAnLi9lbnYnO1xuXG5pbnRlcmZhY2UgSVRhc2tsaXN0IHtcbiAgaWQ6IG51bWJlcjtcbiAgbmFtZTogc3RyaW5nO1xufVxuXG5pbnRlcmZhY2UgSVRhc2tsaXN0c1Jlc3BvbnNlIGV4dGVuZHMgUmVzcG9uc2Uge1xuICB0YXNrbGlzdHM6IElUYXNrbGlzdFtdO1xufVxuXG5pbnRlcmZhY2UgSUthbmJhbiB7XG4gIGJvYXJkczogSVRhc2tsaXN0W107XG59XG5cbmV4cG9ydCBjbGFzcyBBcHAgaW1wbGVtZW50cyBJS2FuYmFuIHtcbiAgYm9hcmRzO1xuXG4gIGNvbnN0cnVjdG9yKCkgeyB9XG5cbiAgYWN0aXZhdGUoKSB7XG4gICAgY29uc3QgY2xpZW50ID0gbmV3IEh0dHBDbGllbnQoKTtcbiAgICBjb25zdCB1cmwgPSBgaHR0cHM6Ly8ke2Vudi5jb21wYW55fS50ZWFtd29yay5jb20vcHJvamVjdHMvJHtlbnYucHJvamVjdElkfS90YXNrbGlzdHMuanNvbj9zdGF0dXM9YWxsYDtcblxuICAgIGNsaWVudC5mZXRjaCh1cmwsIHtcbiAgICAgICAgaGVhZGVyczoge1xuICAgICAgICAgICdBY2NlcHQnOiAnYXBwbGljYXRpb24vanNvbicsXG4gICAgICAgICAgJ0F1dGhvcml6YXRpb24nOiBcIkJBU0lDIFwiICsgd2luZG93LmJ0b2EoZW52LmtleSArICc6eHh4JylcbiAgICAgICAgfVxuICAgICAgfSlcbiAgICAgIC50aGVuKHJlc3BvbnNlID0+IHJlc3BvbnNlLmpzb24oKSlcbiAgICAgIC50aGVuKChyZXNwb25zZTogSVRhc2tsaXN0c1Jlc3BvbnNlKSA9PiB7XG4gICAgICAgIGNvbnN0IGJvYXJkcyA9IFtdO1xuXG4gICAgICAgIHJlc3BvbnNlLnRhc2tsaXN0cy5tYXAodGFza2xpc3QgPT4ge1xuICAgICAgICAgIGJvYXJkcy5wdXNoKHtcbiAgICAgICAgICAgIGlkOiB0YXNrbGlzdC5pZCxcbiAgICAgICAgICAgIG5hbWU6IHRhc2tsaXN0Lm5hbWVcbiAgICAgICAgICB9KVxuICAgICAgICB9KTtcblxuICAgICAgICB0aGlzLmJvYXJkcyA9IGJvYXJkcztcblxuICAgICAgICBjb25zb2xlLmxvZyh0aGlzLmJvYXJkcyk7XG4gICAgICB9KTtcbiAgfVxufVxuIl0sInNvdXJjZVJvb3QiOiJzcmMifQ==
 
 define('env',["require", "exports"], function (require, exports) {
     "use strict";
