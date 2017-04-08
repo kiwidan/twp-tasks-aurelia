@@ -1,35 +1,15 @@
-define('app',["require", "exports", "aurelia-fetch-client", "./env", "./tasklist"], function (require, exports, aurelia_fetch_client_1, env_1, tasklist_1) {
+define('app',["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var App = (function () {
         function App() {
         }
-        App.prototype.activate = function () {
-            var _this = this;
-            var client = new aurelia_fetch_client_1.HttpClient();
-            var url = "https://" + env_1.default.company + ".teamwork.com/projects/" + env_1.default.projectId + "/tasklists.json?status=all";
-            client.fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
-                }
-            })
-                .then(function (response) { return response.json(); })
-                .then(function (response) {
-                var boards = [];
-                response.tasklists.map(function (tasklist) {
-                    boards.push(new tasklist_1.default(tasklist.id, tasklist.name));
-                });
-                _this.boards = boards;
-                console.log(_this.boards);
-            });
-        };
         return App;
     }());
     exports.App = App;
 });
 
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFVQTtRQUdFO1FBQWdCLENBQUM7UUFFakIsc0JBQVEsR0FBUjtZQUFBLGlCQXdCQztZQXZCQyxJQUFNLE1BQU0sR0FBRyxJQUFJLGlDQUFVLEVBQUUsQ0FBQztZQUNoQyxJQUFNLEdBQUcsR0FBRyxhQUFXLGFBQUcsQ0FBQyxPQUFPLCtCQUEwQixhQUFHLENBQUMsU0FBUywrQkFBNEIsQ0FBQztZQUV0RyxNQUFNLENBQUMsS0FBSyxDQUFDLEdBQUcsRUFBRTtnQkFDZCxPQUFPLEVBQUU7b0JBQ1AsUUFBUSxFQUFFLGtCQUFrQjtvQkFDNUIsZUFBZSxFQUFFLFFBQVEsR0FBRyxNQUFNLENBQUMsSUFBSSxDQUFDLGFBQUcsQ0FBQyxHQUFHLEdBQUcsTUFBTSxDQUFDO2lCQUMxRDthQUNGLENBQUM7aUJBQ0QsSUFBSSxDQUFDLFVBQUEsUUFBUSxJQUFJLE9BQUEsUUFBUSxDQUFDLElBQUksRUFBRSxFQUFmLENBQWUsQ0FBQztpQkFDakMsSUFBSSxDQUFDLFVBQUMsUUFBNEI7Z0JBQ2pDLElBQU0sTUFBTSxHQUFHLEVBQUUsQ0FBQztnQkFFbEIsUUFBUSxDQUFDLFNBQVMsQ0FBQyxHQUFHLENBQUMsVUFBQSxRQUFRO29CQUM3QixNQUFNLENBQUMsSUFBSSxDQUNULElBQUksa0JBQVEsQ0FBQyxRQUFRLENBQUMsRUFBRSxFQUFFLFFBQVEsQ0FBQyxJQUFJLENBQUMsQ0FDekMsQ0FBQztnQkFDSixDQUFDLENBQUMsQ0FBQztnQkFFSCxLQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztnQkFFckIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxLQUFJLENBQUMsTUFBTSxDQUFDLENBQUM7WUFDM0IsQ0FBQyxDQUFDLENBQUM7UUFDUCxDQUFDO1FBQ0gsVUFBQztJQUFELENBOUJBLEFBOEJDLElBQUE7SUE5Qlksa0JBQUciLCJmaWxlIjoiYXBwLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtpbmplY3R9IGZyb20gJ2F1cmVsaWEtZnJhbWV3b3JrJztcbmltcG9ydCB7SHR0cENsaWVudH0gZnJvbSAnYXVyZWxpYS1mZXRjaC1jbGllbnQnO1xuaW1wb3J0IGVudiBmcm9tICcuL2Vudic7XG5pbXBvcnQgVGFza2xpc3QgZnJvbSAnLi90YXNrbGlzdCc7XG5cblxuaW50ZXJmYWNlIElUYXNrbGlzdHNSZXNwb25zZSBleHRlbmRzIFJlc3BvbnNlIHtcbiAgdGFza2xpc3RzOiBUYXNrbGlzdFtdO1xufVxuXG5leHBvcnQgY2xhc3MgQXBwIHtcbiAgYm9hcmRzOiBUYXNrbGlzdFtdO1xuXG4gIGNvbnN0cnVjdG9yKCkgeyB9XG5cbiAgYWN0aXZhdGUoKSB7XG4gICAgY29uc3QgY2xpZW50ID0gbmV3IEh0dHBDbGllbnQoKTtcbiAgICBjb25zdCB1cmwgPSBgaHR0cHM6Ly8ke2Vudi5jb21wYW55fS50ZWFtd29yay5jb20vcHJvamVjdHMvJHtlbnYucHJvamVjdElkfS90YXNrbGlzdHMuanNvbj9zdGF0dXM9YWxsYDtcblxuICAgIGNsaWVudC5mZXRjaCh1cmwsIHtcbiAgICAgICAgaGVhZGVyczoge1xuICAgICAgICAgICdBY2NlcHQnOiAnYXBwbGljYXRpb24vanNvbicsXG4gICAgICAgICAgJ0F1dGhvcml6YXRpb24nOiBcIkJBU0lDIFwiICsgd2luZG93LmJ0b2EoZW52LmtleSArICc6eHh4JylcbiAgICAgICAgfVxuICAgICAgfSlcbiAgICAgIC50aGVuKHJlc3BvbnNlID0+IHJlc3BvbnNlLmpzb24oKSlcbiAgICAgIC50aGVuKChyZXNwb25zZTogSVRhc2tsaXN0c1Jlc3BvbnNlKSA9PiB7XG4gICAgICAgIGNvbnN0IGJvYXJkcyA9IFtdO1xuXG4gICAgICAgIHJlc3BvbnNlLnRhc2tsaXN0cy5tYXAodGFza2xpc3QgPT4ge1xuICAgICAgICAgIGJvYXJkcy5wdXNoKFxuICAgICAgICAgICAgbmV3IFRhc2tsaXN0KHRhc2tsaXN0LmlkLCB0YXNrbGlzdC5uYW1lKVxuICAgICAgICAgICk7XG4gICAgICAgIH0pO1xuXG4gICAgICAgIHRoaXMuYm9hcmRzID0gYm9hcmRzO1xuXG4gICAgICAgIGNvbnNvbGUubG9nKHRoaXMuYm9hcmRzKTtcbiAgICAgIH0pO1xuICB9XG59XG4iXSwic291cmNlUm9vdCI6InNyYyJ9
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFBQTtRQUFBO1FBQ0EsQ0FBQztRQUFELFVBQUM7SUFBRCxDQURBLEFBQ0MsSUFBQTtJQURZLGtCQUFHIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjbGFzcyBBcHAge1xufVxuIl0sInNvdXJjZVJvb3QiOiJzcmMifQ==
 
 define('env',["require", "exports"], function (require, exports) {
     "use strict";
@@ -104,6 +84,38 @@ define('tasklist',["require", "exports"], function (require, exports) {
 
 //# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRhc2tsaXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztJQUFBO1FBSUksa0JBQVksRUFBVSxFQUFFLElBQVk7WUFDaEMsSUFBSSxDQUFDLEVBQUUsR0FBRyxFQUFFLENBQUM7WUFDYixJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQztRQUNyQixDQUFDO1FBQ0wsZUFBQztJQUFELENBUkEsQUFRQyxJQUFBIiwiZmlsZSI6InRhc2tsaXN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGRlZmF1bHQgY2xhc3MgVGFza2xpc3Qge1xuICAgIGlkOiBudW1iZXI7XG4gICAgbmFtZTogc3RyaW5nO1xuXG4gICAgY29uc3RydWN0b3IoaWQ6IG51bWJlciwgbmFtZTogc3RyaW5nKSB7XG4gICAgICAgIHRoaXMuaWQgPSBpZDtcbiAgICAgICAgdGhpcy5uYW1lID0gbmFtZTtcbiAgICB9XG59Il0sInNvdXJjZVJvb3QiOiJzcmMifQ==
 
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"./style.css\"></require><h1>${message}</h1></template>"; });
+define('kanban',["require", "exports", "aurelia-fetch-client", "./env", "./tasklist"], function (require, exports, aurelia_fetch_client_1, env_1, tasklist_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Kanban = (function () {
+        function Kanban() {
+            var _this = this;
+            var client = new aurelia_fetch_client_1.HttpClient();
+            var url = "https://" + env_1.default.company + ".teamwork.com/projects/" + env_1.default.projectId + "/tasklists.json?status=all";
+            client.fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': "BASIC " + window.btoa(env_1.default.key + ':xxx')
+                }
+            })
+                .then(function (response) { return response.json(); })
+                .then(function (response) {
+                var boards = [];
+                response.tasklists.map(function (tasklist) {
+                    boards.push(new tasklist_1.default(tasklist.id, tasklist.name));
+                });
+                _this.boards = boards;
+                console.log(_this.boards);
+            });
+        }
+        return Kanban;
+    }());
+    exports.Kanban = Kanban;
+});
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImthbmJhbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7SUFVQTtRQUdFO1lBQUEsaUJBd0JDO1lBdkJDLElBQU0sTUFBTSxHQUFHLElBQUksaUNBQVUsRUFBRSxDQUFDO1lBQ2hDLElBQU0sR0FBRyxHQUFHLGFBQVcsYUFBRyxDQUFDLE9BQU8sK0JBQTBCLGFBQUcsQ0FBQyxTQUFTLCtCQUE0QixDQUFDO1lBRXRHLE1BQU0sQ0FBQyxLQUFLLENBQUMsR0FBRyxFQUFFO2dCQUNkLE9BQU8sRUFBRTtvQkFDUCxRQUFRLEVBQUUsa0JBQWtCO29CQUM1QixlQUFlLEVBQUUsUUFBUSxHQUFHLE1BQU0sQ0FBQyxJQUFJLENBQUMsYUFBRyxDQUFDLEdBQUcsR0FBRyxNQUFNLENBQUM7aUJBQzFEO2FBQ0YsQ0FBQztpQkFDRCxJQUFJLENBQUMsVUFBQSxRQUFRLElBQUksT0FBQSxRQUFRLENBQUMsSUFBSSxFQUFFLEVBQWYsQ0FBZSxDQUFDO2lCQUNqQyxJQUFJLENBQUMsVUFBQyxRQUE0QjtnQkFDakMsSUFBTSxNQUFNLEdBQUcsRUFBRSxDQUFDO2dCQUVsQixRQUFRLENBQUMsU0FBUyxDQUFDLEdBQUcsQ0FBQyxVQUFBLFFBQVE7b0JBQzdCLE1BQU0sQ0FBQyxJQUFJLENBQ1QsSUFBSSxrQkFBUSxDQUFDLFFBQVEsQ0FBQyxFQUFFLEVBQUUsUUFBUSxDQUFDLElBQUksQ0FBQyxDQUN6QyxDQUFDO2dCQUNKLENBQUMsQ0FBQyxDQUFDO2dCQUVILEtBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDO2dCQUVyQixPQUFPLENBQUMsR0FBRyxDQUFDLEtBQUksQ0FBQyxNQUFNLENBQUMsQ0FBQztZQUMzQixDQUFDLENBQUMsQ0FBQztRQUNQLENBQUM7UUFDSCxhQUFDO0lBQUQsQ0E1QkEsQUE0QkMsSUFBQTtJQTVCWSx3QkFBTSIsImZpbGUiOiJrYW5iYW4uanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge2luamVjdH0gZnJvbSAnYXVyZWxpYS1mcmFtZXdvcmsnO1xuaW1wb3J0IHtIdHRwQ2xpZW50fSBmcm9tICdhdXJlbGlhLWZldGNoLWNsaWVudCc7XG5pbXBvcnQgZW52IGZyb20gJy4vZW52JztcbmltcG9ydCBUYXNrbGlzdCBmcm9tICcuL3Rhc2tsaXN0JztcblxuXG5pbnRlcmZhY2UgSVRhc2tsaXN0c1Jlc3BvbnNlIGV4dGVuZHMgUmVzcG9uc2Uge1xuICB0YXNrbGlzdHM6IFRhc2tsaXN0W107XG59XG5cbmV4cG9ydCBjbGFzcyBLYW5iYW4ge1xuICBib2FyZHM6IFRhc2tsaXN0W107XG5cbiAgY29uc3RydWN0b3IoKSB7XG4gICAgY29uc3QgY2xpZW50ID0gbmV3IEh0dHBDbGllbnQoKTtcbiAgICBjb25zdCB1cmwgPSBgaHR0cHM6Ly8ke2Vudi5jb21wYW55fS50ZWFtd29yay5jb20vcHJvamVjdHMvJHtlbnYucHJvamVjdElkfS90YXNrbGlzdHMuanNvbj9zdGF0dXM9YWxsYDtcblxuICAgIGNsaWVudC5mZXRjaCh1cmwsIHtcbiAgICAgICAgaGVhZGVyczoge1xuICAgICAgICAgICdBY2NlcHQnOiAnYXBwbGljYXRpb24vanNvbicsXG4gICAgICAgICAgJ0F1dGhvcml6YXRpb24nOiBcIkJBU0lDIFwiICsgd2luZG93LmJ0b2EoZW52LmtleSArICc6eHh4JylcbiAgICAgICAgfVxuICAgICAgfSlcbiAgICAgIC50aGVuKHJlc3BvbnNlID0+IHJlc3BvbnNlLmpzb24oKSlcbiAgICAgIC50aGVuKChyZXNwb25zZTogSVRhc2tsaXN0c1Jlc3BvbnNlKSA9PiB7XG4gICAgICAgIGNvbnN0IGJvYXJkcyA9IFtdO1xuXG4gICAgICAgIHJlc3BvbnNlLnRhc2tsaXN0cy5tYXAodGFza2xpc3QgPT4ge1xuICAgICAgICAgIGJvYXJkcy5wdXNoKFxuICAgICAgICAgICAgbmV3IFRhc2tsaXN0KHRhc2tsaXN0LmlkLCB0YXNrbGlzdC5uYW1lKVxuICAgICAgICAgICk7XG4gICAgICAgIH0pO1xuXG4gICAgICAgIHRoaXMuYm9hcmRzID0gYm9hcmRzO1xuXG4gICAgICAgIGNvbnNvbGUubG9nKHRoaXMuYm9hcmRzKTtcbiAgICAgIH0pO1xuICB9XG59Il0sInNvdXJjZVJvb3QiOiJzcmMifQ==
+
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"./style.css\"></require><require from=\"./kanban\"></require><kanban></kanban></template>"; });
 define('text!style.css', ['module'], function(module) { module.exports = "body {\n    background: #B9BABC;\n    font-family: 'Roboto', sans-serif;\n    overflow-x: scroll;\n    margin: 0;\n}\n\n.kanban {\n    white-space: nowrap;\n    padding-top: 30px;\n}\n\n.board {\n    background: #F1F1F1;\n    width: 300px;\n    margin-left: 15px;\n    display: inline-block;\n    box-shadow: 2px 2px 5px 1px #aaa;\n    border-radius: 4px;\n    white-space: normal;\n    vertical-align:top;\n}\n\n.board h2 {\n    padding: 20px 15px;\n    text-align: center;\n    margin: 0;\n    border-bottom: 1px solid #aaa;\n    border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    background: #3b5574;\n    color: white;\n    box-shadow: 0 0 5px 1px rgba(200, 200, 200, .5);\n}\n\n.board:last-child {\n    margin-right: 15px;\n}\n\n.task-list {\n    padding: 10px;\n    list-style-type: none;\n    margin: 0;\n}\n\n.task {\n    background: white;\n    padding: 15px;\n    margin-top: 10px;\n    border-left: 4px solid #3b5574;\n    border-radius: 2px;\n    box-shadow: 0 0 5px 1px rgba(200, 200, 200, .3);\n    cursor: pointer;\n}\n\n.task-title {\n    margin-left: 8px;\n}\n\n.board-footer {\n    background: white;\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    text-align: center;\n    padding: 15px;\n    font-weight: bold;\n    box-shadow: 0 0 5px 1px rgba(200, 200, 200, .5);\n}\n\n.page-message {\n    background: white;\n    width: 62%;\n    margin: 30px auto;\n    border-radius: 4px;\n    box-shadow: 2px 2px 5px 1px #aaa;\n    text-align: center;\n    font-size: 1.2em;\n    font-weight: 700;\n    padding: 30px;\n}\n\n.hidden {\n    display: none;\n}\n\n.error {\n    color: red;\n}"; });
+define('text!kanban.html', ['module'], function(module) { module.exports = "<template><div class=\"kanban\"><div repeat.for=\"tasklist of boards\" class=\"board\"><h2>${tasklist.name}</h2><ul class=\"task-list\"></ul></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
