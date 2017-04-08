@@ -3,9 +3,13 @@
     <div repeat.for="board of boards" class="board">
       <h2>${board.name}</h2>
 
-      <ul class="task-list">
-        
+      <ul repeat.for="task of board.tasks" class="task-list">
+        <li>${task.description}</li>
       </ul>
+
+      <div class="board-footer">
+        ${board.tasks.length}
+      </div>
     </div>
   </div>
 </template>
