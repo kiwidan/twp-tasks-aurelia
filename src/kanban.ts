@@ -9,8 +9,10 @@ interface ITasklistsResponse extends Response {
 
 export class Kanban {
   boards: Board[];
+  loading: boolean;
 
   constructor() {
+    this.loading = true;
     const client = new HttpClient();
     const url = `https://${env.company}.teamwork.com/projects/${env.projectId}/tasklists.json?status=all`;
 
@@ -31,8 +33,7 @@ export class Kanban {
         });
 
         this.boards = boards;
-
-        console.log(this.boards);
+        this.loading = false;
       });
   }
 }

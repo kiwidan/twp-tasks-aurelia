@@ -1,9 +1,11 @@
 <template>
   <div class="kanban">
+    <div class="page-message" show.bind="loading">Loading...</div>
+
     <div repeat.for="board of boards" class="board">
       <h2>${board.name}</h2>
 
-      <ul class="task-list">
+      <ul class="task-list ${board.tasks.length ? '' : 'hidden'}">
         <li class="task" repeat.for="task of board.tasks" click.delegate="task.toggleCompleted()">
           <input type="checkbox" onChange={this.onChange} checked.bind="task.completed" />
           ${task.description}

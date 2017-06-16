@@ -1,35 +1,47 @@
+import {inject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {HttpClient} from 'aurelia-fetch-client';
+import {GlobalAlert} from './events';
 import env from './env';
-
-let client = new HttpClient();
+import {Container} from 'aurelia-dependency-injection';
+import Api from './api';
 
 export default class Task {
-  id;
-  description;
-  completed;
+  public id: number;
+  public description: string;
+  public completed: boolean;
+
+  private ea: EventAggregator;
+  private client: HttpClient;
+  private globalAlertSubscription;
+  private api: Api;
 
   constructor(id: number, description: string, completed: boolean = false) {
     this.id = id;
     this.description = description;
     this.completed = completed;
+
+    this.ea = Container.instance.get(EventAggregator); // get or create the singleton instance managed by the container.
+    this.client = Container.instance.get(HttpClient);
+    this.api = Container.instance.get(Api);
+
+    this.globalAlertSubscription = this.ea.subscribe(GlobalAlert, event => console.log('event received in task.ts'));
+  }
+
+  detached() {
+    this.globalAlertSubscription.dispose();
   }
 
   toggleCompleted() {
     this.completed = !this.completed;
 
-    const action = this.completed ? 'complete' : 'uncomplete';
-    const url = `https://${env.company}.teamwork.com/tasks/${this.id}/${action}.json`
-
-    client.fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': "BASIC " + window.btoa(env.key + ':xxx')
-        }
+    this.api.toggleCompleted(this.id, this.completed)
+      .then(response => {
+        throw new Error('testing');
       })
       .catch(error => {
         this.completed = !this.completed;
-        // display error or something
-      })
+        this.ea.publish(new GlobalAlert(GlobalAlert.types.Error, `Failed to toggle task: "${this.description}"`));
+      });
   }
 }
